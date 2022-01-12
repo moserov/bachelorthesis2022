@@ -1,9 +1,9 @@
 <?php
 	session_start();
 
-	define( 'FACEBOOK_APP_ID', 'YOUR-APP-ID' );
-	define( 'FACEBOOK_APP_SECRET', 'YOUR-APP-SECRED' );
-	define( 'FACEBOOK_REDIRECT_URI', 'YOUR-REDIRECT-URI' );
+	define( 'FACEBOOK_APP_ID', '301944075074469D' );
+	define( 'FACEBOOK_APP_SECRET', '5a1bf9f7fae4f071576ac696e31d5d3b' );
+	define( 'FACEBOOK_REDIRECT_URI', 'https://justinstolpe.com/blog_code/instagram_graph_api/obtaining_access_token.php' );
 	define( 'ENDPOINT_BASE', 'https://graph.facebook.com/v5.0/' );
 
 	// accessToken
