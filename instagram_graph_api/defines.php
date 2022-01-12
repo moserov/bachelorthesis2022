@@ -3,7 +3,7 @@
 
 	define( 'FACEBOOK_APP_ID', '301944075074469D' );
 	define( 'FACEBOOK_APP_SECRET', '5a1bf9f7fae4f071576ac696e31d5d3b' );
-	define( 'FACEBOOK_REDIRECT_URI', 'https://justinstolpe.com/blog_code/instagram_graph_api/obtaining_access_token.php' );
+	define( 'FACEBOOK_REDIRECT_URI', 'http://localhost/' );
 	define( 'ENDPOINT_BASE', 'https://graph.facebook.com/v5.0/' );
 
 	// accessToken
