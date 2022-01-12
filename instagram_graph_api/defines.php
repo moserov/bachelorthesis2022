@@ -1,8 +1,8 @@
 <?php
 	session_start();
 
-	define( 'FACEBOOK_APP_ID', '301944075074469D' );
-	define( 'FACEBOOK_APP_SECRET', '5a1bf9f7fae4f071576ac696e31d5d3b' );
+	define( 'FACEBOOK_APP_ID', '889461408398528' );
+	define( 'FACEBOOK_APP_SECRET', 'e4f3a20599f38c485702f5a98f53ab9f' );
 	define( 'FACEBOOK_REDIRECT_URI', 'http://localhost/' );
 	define( 'ENDPOINT_BASE', 'https://graph.facebook.com/v5.0/' );
 
