@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2ffede5ed95830de7fa878bdf2f5b290424b2a31',
+        'reference' => '99ed20842e804e0ca20b7f4ff105308b3df2a8ee',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2ffede5ed95830de7fa878bdf2f5b290424b2a31',
+            'reference' => '99ed20842e804e0ca20b7f4ff105308b3df2a8ee',
             'dev_requirement' => false,
         ),
         'facebook/graph-sdk' => array(
