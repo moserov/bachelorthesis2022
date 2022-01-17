@@ -1,6 +1,12 @@
 <?php
+    //Credentials
 	include 'definition.php';
+    //.JSON file with countrydata
+    $countryarray = json_decode(file_get_contents('countryarraytest.json'), true);
+    
 
+
+    //API call
 	function makeApiCall( $endpoint, $type, $params ) {
 		$ch = curl_init();
 
@@ -21,6 +27,66 @@
 
 		return json_decode( $response, true );
 	}
+
+    //Analyze Top Post array
+    function analyzeTopPage ($topHashtagSearchArray, $topCountrySearchArray){
+        
+        for ($i=0; $i<=24; $i++) {
+            if(isset($topHashtagSearchArray[$i])){
+                $analyzearray = $topHashtagSearchArray[$i];
+                for($j=0; $j<=379; $j++){
+                    if((isset($analyzearray['caption']))AND(isset($topCountrySearchArray[$j]['name']))){
+                        if(strpos(strtolower(($analyzearray['caption'])),$topCountrySearchArray[$j]['name'])){
+                            if($topCountrySearchArray[$j]['group'] != ''){
+                                $groupvar = $topCountrySearchArray[$j]['group'];
+                                for ($k=0; $k<=379; $k++){
+                                    if(isset($topCountrySearchArray[$k]['name'])){
+                                        if($groupvar == $topCountrySearchArray[$k]['name']){
+                                            $topCountrySearchArray[$k]['count']++;
+                                        }
+                                    }
+                                }
+                            }else{
+                                $topCountrySearchArray[$j]['count']++;     
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ($topCountrySearchArray);
+    }
+    
+    //Analyze Recent Post Array
+    function analyzeRecentPages ($recentHashtagSearchArray, $recentCountrySearchArray){
+        for ($i=0; $i<=243; $i++) {
+            if(isset($recentHashtagSearchArray[$i])){
+                $analyzearray = $recentHashtagSearchArray[$i];
+                for($j=0; $j<=379; $j++){
+                    if((isset($analyzearray['caption']))AND(isset($recentCountrySearchArray[$j]['name']))){
+                        if(strpos($analyzearray['caption'],$recentCountrySearchArray[$j]['name'])){
+                            if($recentCountrySearchArray[$j]['group'] != ''){
+                                $groupvar = $recentCountrySearchArray[$j]['group'];
+                                for ($k=0; $k<=379; $k++){
+                                    if(isset($recentCountrySearchArray[$k]['name'])){
+                                        if($groupvar == $recentCountrySearchArray[$k]['name']){
+                                            $recentCountrySearchArray[$k]['count']++;
+                                        }
+                                    }
+                                }
+                            }else{
+                                $recentCountrySearchArray[$j]['count']++;     
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ($recentCountrySearchArray);
+    }
+
+
+
 
     //hashtag credentials
 	$hashtag = 'travel';
@@ -60,8 +126,8 @@
 		'fields' => 'id,caption,children,comments_count,like_count,media_type,media_url,permalink,timestamp',
 		'access_token' => $accessToken
 	);
-	$hashtagTopMedia = makeApiCall( $hashtagTopMediaEndpoint, 'GET', $hashtagTopMediaParams );
-	$topPost = $hashtagTopMedia['data'][0];
+	$hashtagTopPage1Data = makeApiCall( $hashtagTopMediaEndpoint, 'GET', $hashtagTopMediaParams );
+    $hashtagTopPage1 = $hashtagTopPage1Data['data'];
 
 	// recent media for hashtag 1
 	$hashtagRecentEndpoint = ENDPOINT_BASE . $hashtagId . '/recent_media';
@@ -71,16 +137,34 @@
 		'access_token' => $accessToken
 	);
 	$hashtagRecent = makeApiCall( $hashtagRecentEndpoint, 'GET', $hashtagRecentParams );
-	$recentPost = $hashtagRecent['data'][0];
+    
 
+    //Get next 9 recent pages
+    $secondrecentpage = json_decode(file_get_contents($hashtagRecent['paging']['next']),true);
+    $thirdrecentpage = json_decode(file_get_contents($secondrecentpage['paging']['next']),true);
+    $fourthrecentpage = json_decode(file_get_contents($thirdrecentpage['paging']['next']),true);
+    $fifthrecentpage = json_decode(file_get_contents($fourthrecentpage['paging']['next']),true);
+    $sixtrecentpage = json_decode(file_get_contents($fifthrecentpage['paging']['next']),true);
+    $seventhrecentpage = json_decode(file_get_contents($sixtrecentpage['paging']['next']),true);
+    $eightrecentpage = json_decode(file_get_contents($seventhrecentpage['paging']['next']),true);
+    $ninthrecentpage = json_decode(file_get_contents($eightrecentpage['paging']['next']),true);
+    $tenthrecentpage = json_decode(file_get_contents($ninthrecentpage['paging']['next']),true);
 
-    $counter = 0;
-    for ($i=0; $i<22; $i++) {
-        $analyzeArray = $hashtagTopMedia['data'][$i];
-        $analyzeArrayString = strtolower($analyzeArray['caption']);
-        $counter= $counter + substr_count($analyzeArrayString, 'white waist');
-    };
+    //get the data of the arrays
+    $datahashtagRecent = $hashtagRecent['data'];
+    $secondrecentpagedata = $secondrecentpage['data'];
+    $thirdrecentpagedata = $thirdrecentpage['data'];
+    $fourthrecentpagedata = $fourthrecentpage['data'];
+    $fifthrecentpagedata = $fifthrecentpage['data'];
+    $sixtrecentpagedata = $sixtrecentpage['data'];
+    $seventhrecentpagedata = $seventhrecentpage['data'];
+    $eightrecentpagedata = $eightrecentpage['data'];
+    $ninthrecentpagedata = $ninthrecentpage['data'];
+    $tenthrecentpagedata = $tenthrecentpage['data'];
 
+    //merging all arrays together
+    $allRecentPages1 = array_merge($datahashtagRecent,$secondrecentpagedata,$thirdrecentpagedata,$fourthrecentpagedata,$fifthrecentpagedata,$sixtrecentpagedata,$seventhrecentpagedata,$eightrecentpagedata,$ninthrecentpagedata,$tenthrecentpagedata);
+    
 
 
 
@@ -101,8 +185,8 @@
 		'fields' => 'id,caption,children,comments_count,like_count,media_type,media_url,permalink,timestamp',
 		'access_token' => $accessToken
 	);
-	$hashtag2TopMedia = makeApiCall( $hashtag2TopMediaEndpoint, 'GET', $hashtag2TopMediaParams );
-	$topPost2 = $hashtag2TopMedia['data'][0];
+	$hashtagTopPage2Data = makeApiCall( $hashtag2TopMediaEndpoint, 'GET', $hashtag2TopMediaParams );
+    $hashtagTopPage2 = $hashtagTopPage2Data['data'];
 
 	// recent media for hashtag 2
 	$hashtag2RecentEndpoint = ENDPOINT_BASE . $hashtag2Id . '/recent_media';
@@ -112,8 +196,33 @@
 		'access_token' => $accessToken
 	);
 	$hashtag2Recent = makeApiCall( $hashtag2RecentEndpoint, 'GET', $hashtag2RecentParams );
-	$recentPost2 = $hashtag2Recent['data'][0];
 
+    //Get next 9 recent pages
+    $secondrecentpage2 = json_decode(file_get_contents($hashtag2Recent['paging']['next']),true);
+    $thirdrecentpage2 = json_decode(file_get_contents($secondrecentpage2['paging']['next']),true);
+    $fourthrecentpage2 = json_decode(file_get_contents($thirdrecentpage2['paging']['next']),true);
+    $fifthrecentpage2 = json_decode(file_get_contents($fourthrecentpage2['paging']['next']),true);
+    $sixtrecentpage2 = json_decode(file_get_contents($fifthrecentpage2['paging']['next']),true);
+    $seventhrecentpage2 = json_decode(file_get_contents($sixtrecentpage2['paging']['next']),true);
+    $eightrecentpage2 = json_decode(file_get_contents($seventhrecentpage2['paging']['next']),true);
+    $ninthrecentpage2 = json_decode(file_get_contents($eightrecentpage2['paging']['next']),true);
+    $tenthrecentpage2 = json_decode(file_get_contents($ninthrecentpage2['paging']['next']),true);
+
+    //get the data of the arrays
+    $datahashtagRecent2 = $hashtag2Recent['data'];
+    $secondrecentpagedata2 = $secondrecentpage2['data'];
+    $thirdrecentpagedata2 = $thirdrecentpage2['data'];
+    $fourthrecentpagedata2 = $fourthrecentpage2['data'];
+    $fifthrecentpagedata2 = $fifthrecentpage2['data'];
+    $sixtrecentpagedata2 = $sixtrecentpage2['data'];
+    $seventhrecentpagedata2 = $seventhrecentpage2['data'];
+    $eightrecentpagedata2 = $eightrecentpage2['data'];
+    $ninthrecentpagedata2 = $ninthrecentpage2['data'];
+    $tenthrecentpagedata2 = $tenthrecentpage2['data'];
+
+    //merging all arrays together
+    $allRecentPages2 = array_merge($datahashtagRecent2,$secondrecentpagedata2,$thirdrecentpagedata2,$fourthrecentpagedata2,$fifthrecentpagedata2,$sixtrecentpagedata2,$seventhrecentpagedata2,$eightrecentpagedata2,$ninthrecentpagedata2,$tenthrecentpagedata2);
+    
 
 
 
@@ -134,8 +243,8 @@
 		'fields' => 'id,caption,children,comments_count,like_count,media_type,media_url,permalink,timestamp',
 		'access_token' => $accessToken
 	);
-	$hashtag3TopMedia = makeApiCall( $hashtag3TopMediaEndpoint, 'GET', $hashtag3TopMediaParams );
-	$topPost3 = $hashtag3TopMedia['data'][0];
+	$hashtagTopPage3Data = makeApiCall( $hashtag3TopMediaEndpoint, 'GET', $hashtag3TopMediaParams );
+    $hashtagTopPage3 = $hashtagTopPage3Data['data'];
 
 	// recent media for hashtag 3
 	$hashtag3RecentEndpoint = ENDPOINT_BASE . $hashtag3Id . '/recent_media';
@@ -145,7 +254,63 @@
 		'access_token' => $accessToken
 	);
 	$hashtag3Recent = makeApiCall( $hashtag3RecentEndpoint, 'GET', $hashtag3RecentParams );
-	$recentPost3 = $hashtag3Recent['data'][0];
+    
+    //Get next 9 recent pages
+    $secondrecentpage3 = json_decode(file_get_contents($hashtag3Recent['paging']['next']),true);
+    $thirdrecentpage3 = json_decode(file_get_contents($secondrecentpage3['paging']['next']),true);
+    $fourthrecentpage3 = json_decode(file_get_contents($thirdrecentpage3['paging']['next']),true);
+    $fifthrecentpage3 = json_decode(file_get_contents($fourthrecentpage3['paging']['next']),true);
+    $sixtrecentpage3 = json_decode(file_get_contents($fifthrecentpage3['paging']['next']),true);
+    $seventhrecentpage3 = json_decode(file_get_contents($sixtrecentpage3['paging']['next']),true);
+    $eightrecentpage3 = json_decode(file_get_contents($seventhrecentpage3['paging']['next']),true);
+    $ninthrecentpage3 = json_decode(file_get_contents($eightrecentpage3['paging']['next']),true);
+    $tenthrecentpage3 = json_decode(file_get_contents($ninthrecentpage3['paging']['next']),true);
+
+    //get the data of the arrays
+    $datahashtagRecent3 = $hashtag3Recent['data'];
+    $secondrecentpagedata3 = $secondrecentpage3['data'];
+    $thirdrecentpagedata3 = $thirdrecentpage3['data'];
+    $fourthrecentpagedata3 = $fourthrecentpage3['data'];
+    $fifthrecentpagedata3 = $fifthrecentpage3['data'];
+    $sixtrecentpagedata3 = $sixtrecentpage3['data'];
+    $seventhrecentpagedata3 = $seventhrecentpage3['data'];
+    $eightrecentpagedata3 = $eightrecentpage3['data'];
+    $ninthrecentpagedata3 = $ninthrecentpage3['data'];
+    $tenthrecentpagedata3 = $tenthrecentpage3['data'];
+
+    //merging all arrays together
+    $allRecentPages3 = array_merge($datahashtagRecent3,$secondrecentpagedata3,$thirdrecentpagedata3,$fourthrecentpagedata3,$fifthrecentpagedata3,$sixtrecentpagedata3,$seventhrecentpagedata3,$eightrecentpagedata3,$ninthrecentpagedata3,$tenthrecentpagedata3);
+    
+    //Call Analyze Functions
+    //1:
+    $countryarray = analyzeTopPage($hashtagTopPage1, $countryarray);
+    $countryarray = analyzeRecentPages($allRecentPages1, $countryarray);
+    //2:
+    $countryarray = analyzeTopPage($hashtagTopPage2, $countryarray);
+    $countryarray = analyzeRecentPages($allRecentPages2, $countryarray);
+    //3:
+    $countryarray = analyzeTopPage($hashtagTopPage3, $countryarray);
+    $countryarray = analyzeRecentPages($allRecentPages3, $countryarray);    
+    
+    
+    
+    //GIVE CURRENT TOP 4:
+    $sortedcountryarray = $countryarray;
+    $keys = array_column($sortedcountryarray, 'count');
+    array_multisort($keys, SORT_DESC, $sortedcountryarray);
+
+    
+
+    //save data in json
+    $jsnon_countryarray = json_encode($sortedcountryarray);
+	$test_country = 'countryarraytest' . '.json';
+
+	if (file_put_contents($test_country,$jsnon_countryarray)){
+		echo $test_country . 'file created';
+	}else{
+		echo 'error';
+	};
+
 ?>
 
 
@@ -155,169 +320,22 @@
 <html>
 	<head>
 		<title>
-			Hashtag Search with the Instagram Graph API
+			Hashtag Analysis with the Instagram Graph API
 		</title>
 		<meta charset="utf-8" />
 	</head>
 	<body>
 		<h1>
-			Hashtag Search with the Instagram Graph API
+			Hashtag Analysis with the Instagram Graph API
 		</h1>
 		<hr />
-
-        <!-- ----------------Hashtag 1--------------------- -->
-        <div>
-            <h2>
-                Hashtag <a target="_blank" href="https://www.instagram.com/explore/tags/<?php echo $hashtag; ?>">#<?php echo $hashtag; ?> (id <?php echo $hashtagData['id']; ?>)</a>
-            <h2>
-            <hr />
-            <h3>
-                Top Post for #<?php echo $hashtagData['name']; ?>
-            </h3>
-            <div>
-                <div>
-                    <?php if ( 'IMAGE' == $topPost['media_type'] || 'CAROUSEL_ALBUM' == $topPost['media_type'] ) : ?>
-                        <img style="height:320px" src="<?php echo $topPost['media_url']; ?>" />
-                    <?php else : ?>
-                        <video height="240" width="320" controls>
-                            <source src="<?php echo $topPost['media_url']; ?>" />
-                        </video>
-                    <?php endif; ?>
-                </div>
-                <div>
-                    <b>Caption: <?php echo nl2br( $topPost['caption'] ); ?></b>
-                    Post ID: <?php echo nl2br( $topPost['id'] ); ?>
-                    Media Type: <?php echo nl2br( $topPost['media_type'] ); ?>
-                    Media URL: <?php echo nl2br( $topPost['media_url'] ); ?>
-                    Timestamp: <?php echo nl2br( $topPost['timestamp'] ); ?>
-                    Link: <a target="_blank" href="<?php echo $topPost['permalink']; ?>"><?php echo $topPost['permalink']; ?></a>
-                </div>
-            </div>
-            <div>
-                <hr />
-                <h2>
-                    Hashtag Counter Test <?php echo $counter; ?>
-                </h2>
-                <h3>
-                    Hashtag Data Endpoint: <?php echo $hashtagDataEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:100px"><?php print_r( $hashtagData ); ?></textarea>
-                <hr />
-                <h3>
-                    Hashtag Top Media Endpoint: <?php echo $hashtagTopMediaEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:300px"><?php print_r( $hashtagTopMedia ); ?></textarea>
-                <hr />
-                <h3>
-                    Hashtag Recent Media Endpoint: <?php echo $hashtagRecentEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:300px"><?php print_r( $hashtagRecent ); ?></textarea>
-                <hr />
-                <br/>
-                <br/>
-            </div>
-        </div>
-
-        <!-- ----------------Hashtag 2--------------------- -->
-        <div>
-            <h2>
-                Hashtag 2 <a target="_blank" href="https://www.instagram.com/explore/tags/<?php echo $hashtag2; ?>">#<?php echo $hashtag2; ?> (id <?php echo $hashtag2Data['id']; ?>)</a>
-            <h2>
-            <hr />
-            <h3>
-                Top Post for #<?php echo $hashtag2Data['name']; ?>
-            </h3>
-            <div>
-                <div>
-                    <?php if ( 'IMAGE' == $topPost2['media_type'] || 'CAROUSEL_ALBUM' == $topPost2['media_type'] ) : ?>
-                        <img style="height:320px" src="<?php echo $topPost2['media_url']; ?>" />
-                    <?php else : ?>
-                        <video height="240" width="320" controls>
-                            <source src="<?php echo $topPost2['media_url']; ?>" />
-                        </video>
-                    <?php endif; ?>
-                </div>
-                <div>
-                    <b>Caption: <?php echo nl2br( $topPost2['caption'] ); ?></b>
-                    Post ID: <?php echo nl2br( $topPost2['id'] ); ?>
-                    Media Type: <?php echo nl2br( $topPost2['media_type'] ); ?>
-                    Media URL: <?php echo nl2br( $topPost2['media_url'] ); ?>
-                    Timestamp: <?php echo nl2br( $topPost2['timestamp'] ); ?>
-                    Link: <a target="_blank" href="<?php echo $topPost2['permalink']; ?>"><?php echo $topPost2['permalink']; ?></a>
-                </div>
-            </div>
-            <div>
-                <hr />
-                <h3>
-                    Hashtag 2 Data Endpoint: <?php echo $hashtag2DataEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:100px"><?php print_r( $hashtag2Data ); ?></textarea>
-                <hr />
-                <h3>
-                    Hashtag 2 Top Media Endpoint: <?php echo $hashtag2TopMediaEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:300px"><?php print_r( $hashtag2TopMedia ); ?></textarea>
-                <hr />
-                <h3>
-                    Hashtag 2 Recent Media Endpoint: <?php echo $hashtag2RecentEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:300px"><?php print_r( $hashtag2Recent ); ?></textarea>
-                <hr />
-                <br/>
-                <br/>
-            </div>
-        </div>
+        <h2>
+            List sorted by mentions in the recent 807 posts on instagram marked with the hashtags #travel #holiday #vacation
+        </h2>
+        <textarea style="width:100%;height:100px"><?php print_r( $sortedcountryarray ); ?></textarea>
 
 
-        <!-- ----------------Hashtag 2--------------------- -->
-        <div>
-            <h2>
-                Hashtag 3 <a target="_blank" href="https://www.instagram.com/explore/tags/<?php echo $hashtag3; ?>">#<?php echo $hashtag3; ?> (id <?php echo $hashtag3Data['id']; ?>)</a>
-            <h2>
-            <hr />
-            <h3>
-                Top Post for #<?php echo $hashtag3Data['name']; ?>
-            </h3>
-            <div>
-                <div>
-                    <?php if ( 'IMAGE' == $topPost3['media_type'] || 'CAROUSEL_ALBUM' == $topPost3['media_type'] ) : ?>
-                        <img style="height:320px" src="<?php echo $topPost3['media_url']; ?>" />
-                    <?php else : ?>
-                        <video height="240" width="320" controls>
-                            <source src="<?php echo $topPost3['media_url']; ?>" />
-                        </video>
-                    <?php endif; ?>
-                </div>
-                <div>
-                    <b>Caption: <?php echo nl2br( $topPost3['caption'] ); ?></b>
-                    Post ID: <?php echo nl2br( $topPost3['id'] ); ?>
-                    Media Type: <?php echo nl2br( $topPost3['media_type'] ); ?>
-                    Media URL: <?php echo nl2br( $topPost3['media_url'] ); ?>
-                    Timestamp: <?php echo nl2br( $topPost3['timestamp'] ); ?>
-                    Link: <a target="_blank" href="<?php echo $topPost3['permalink']; ?>"><?php echo $topPost3['permalink']; ?></a>
-                </div>
-            </div>
-            <div>
-                <hr />
-                <h3>
-                    Hashtag 3 Data Endpoint: <?php echo $hashtag3DataEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:100px"><?php print_r( $hashtag3Data ); ?></textarea>
-                <hr />
-                <h3>
-                    Hashtag 3 Top Media Endpoint: <?php echo $hashtag3TopMediaEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:300px"><?php print_r( $hashtag3TopMedia ); ?></textarea>
-                <hr />
-                <h3>
-                    Hashtag 3 Recent Media Endpoint: <?php echo $hashtag3RecentEndpoint; ?>
-                </h3>
-                    <textarea style="width:100%;height:300px"><?php print_r( $hashtag3Recent ); ?></textarea>
-                <hr />
-                <br/>
-                <br/>
-            </div>
-        </div>
+    
 
 	</body>
 </html>

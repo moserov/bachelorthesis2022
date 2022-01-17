@@ -2274,24 +2274,37 @@
 			'name'=>'zambia',
 			'count'=>0,
 			'besttraveltime'=>'',
-			'group'=>'greece',
+			'group'=>'',
 		),
 		377 => array (
 			'name'=>'zanzibar',
 			'count'=>0,
 			'besttraveltime'=>'',
-			'group'=>'tanzania',
+			'group'=>'',
 		),
 		378 => array (
 			'name'=>'zimbabwe',
 			'count'=>0,
 			'besttraveltime'=>'',
-			'group'=>'greece',
+			'group'=>'',
+		),
+		379 => array (
+			'name'=>'mexico',
+			'count'=>0,
+			'besttraveltime'=>'',
+			'group'=>'',
 		),
 
 	);
 
 
+	$json_countryarray = json_encode($countryarray);
+	$test_country = 'countryarraytest' . '.json';
 
+	if (file_put_contents($test_country,$json_countryarray)){
+		echo $test_country . 'file created';
+	}else{
+		echo 'error';
+	};
 
 ?>
