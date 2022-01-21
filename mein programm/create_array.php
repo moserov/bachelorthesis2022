@@ -1097,10 +1097,10 @@
 			'group'=>'#greece ',
 		),
 		180 => array (
-			'name'=>'#kastellorizon ',
+			'name'=>'#venezuela ',
 			'count'=>0,
-			'besttraveltime'=>'34 ',
-			'group'=>'#greece ',
+			'besttraveltime'=>'1 ',
+			'group'=>'',
 		),
 		181 => array (
 			'name'=>'#kazakhstan ',
@@ -1235,7 +1235,7 @@
 			'group'=>'',
 		),
 		203 => array (
-			'name'=>'#lordhowisland ', 
+			'name'=>'#lordhoweisland ', 
 			'count'=>0,
 			'besttraveltime'=> '124 ',
 			'group'=>'#newcaledonia ',
@@ -1259,10 +1259,10 @@
 			'group'=>'#macao ',
 		),
 		207 => array (
-			'name'=>'#alberta ', 
+			'name'=>'#vatican ',
 			'count'=>0,
-			'besttraveltime'=> '3 ',
-			'group'=>'#canada ',
+			'besttraveltime'=>'24 ',
+			'group'=>'',
 		),
 		208 => array (
 			'name'=>'#macedonia ', 
@@ -2243,18 +2243,6 @@
 			'group'=>'',
 		),
 		371 => array (
-			'name'=>'#vatican ',
-			'count'=>0,
-			'besttraveltime'=>'24 ',
-			'group'=>'',
-		),
-		372 => array (
-			'name'=>'#venezuela ',
-			'count'=>0,
-			'besttraveltime'=>'1 ',
-			'group'=>'',
-		),
-		373 => array (
 			'name'=>'Testcounter',
 			'count'=>0,
 			'besttraveltime'=>'',
@@ -2267,7 +2255,7 @@
 
 
 	$json_countryarray = json_encode($countryarray);
-	$test_country = 'countryarrayfinal' . '.json';
+	$test_country = 'countryarrayfinalcopy' . '.json';
 
 	if (file_put_contents($test_country,$json_countryarray)){
 		echo $test_country . 'file created';
