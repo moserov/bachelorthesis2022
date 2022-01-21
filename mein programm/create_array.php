@@ -77,13 +77,13 @@
 			'group'=>'',
 		),
 		10 => array (
-			'name'=>'#alhucemas ', //spain
+			'name'=>'#alhucemas ', 
 			'count'=>0,
 			'besttraveltime'=> '34 ',
 			'group'=>'#spain ',
 		),
 		11 => array (
-			'name'=>'#alofi ', //caledonia
+			'name'=>'#alofi ', 
 			'count'=>0,
 			'besttraveltime'=> '34 ',
 			'group'=>'#newcaledonia ',
