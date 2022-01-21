@@ -293,7 +293,13 @@
     $countryarray = analyzeRecentPages($allRecentPages3, $countryarray);    
     
     
-    
+    //UPDATE test counter:
+    for ($i=0; $i<=380; $i++) {
+        if ($countryarray[$i]['name']=='Testcounter'){
+            $countryarray[$i]['count']++;
+        }
+    }
+
     //GIVE CURRENT TOP 4:
     $sortedcountryarray = $countryarray;
     $keys = array_column($sortedcountryarray, 'count');
@@ -305,37 +311,6 @@
     $jsnon_countryarray = json_encode($sortedcountryarray);
 	$test_country = 'countryarraytest' . '.json';
 
-	if (file_put_contents($test_country,$jsnon_countryarray)){
-		echo $test_country . 'file created';
-	}else{
-		echo 'error';
-	};
+   file_put_contents($test_country,$jsnon_countryarray);
 
 ?>
-
-
-
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>
-			Hashtag Analysis with the Instagram Graph API
-		</title>
-		<meta charset="utf-8" />
-	</head>
-	<body>
-		<h1>
-			Hashtag Analysis with the Instagram Graph API
-		</h1>
-		<hr />
-        <h2>
-            List sorted by mentions in the recent 807 posts on instagram marked with the hashtags #travel #holiday #vacation
-        </h2>
-        <textarea style="width:100%;height:100px"><?php print_r( $sortedcountryarray ); ?></textarea>
-
-
-    
-
-	</body>
-</html>
