@@ -82,6 +82,9 @@
 		<h1>
 			Getting the ID for certain hashtags
 		</h1>
+		<h2>
+			<?php echo ($hashtagSearchEndpoint) ?>
+</h2>
 		<hr />
         <div>
             <h3>

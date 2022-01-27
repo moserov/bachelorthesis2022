@@ -347,7 +347,7 @@
 			'group'=>'#mauritius ',
 		),
 		55 => array (
-			'name'=>'#brazil ',
+			'name'=>'#brasil ',
 			'count'=>0,
 			'besttraveltime'=>'234 ',
 			'group'=>'',
@@ -614,7 +614,7 @@
 			'name'=>'#diu ',
 			'count'=>0,
 			'besttraveltime'=>'14 ',
-			'group'=>'#india  ',
+			'group'=>'#india ',
 		),
 		100 => array (
 			'name'=>'#djibouti ',
@@ -848,7 +848,7 @@
 			'name'=>'#goa ',
 			'count'=>0,
 			'besttraveltime'=>'12 ',
-			'group'=>'#india  ',
+			'group'=>'#india ',
 		),
 		139 => array (
 			'name'=>'#gozoisland ',
@@ -977,7 +977,7 @@
 			'group'=>'',
 		),
 		160 => array (
-			'name'=>'#india  ',
+			'name'=>'#india ',
 			'count'=>0,
 			'besttraveltime'=>'134 ',
 			'group'=>'',
@@ -1970,7 +1970,7 @@
 			'name'=>'#sikkim ',
 			'count'=>0,
 			'besttraveltime'=>'24 ',
-			'group'=>'#india  ',
+			'group'=>'#india ',
 		),
 		326 => array (
 			'name'=>'#singapore ',
@@ -2243,6 +2243,30 @@
 			'group'=>'',
 		),
 		371 => array (
+			'name'=>'#sweden ',
+			'count'=>0,
+			'besttraveltime'=>'3 ',
+			'group'=>'',
+		),
+		372 => array (
+			'name'=>'#finnland ',
+			'count'=>0,
+			'besttraveltime'=>'123 ',
+			'group'=>'',
+		),
+		373 => array (
+			'name'=>'#norway ',
+			'count'=>0,
+			'besttraveltime'=>'134 ',
+			'group'=>'',
+		),
+		374 => array (
+			'name'=>'#emirates ',
+			'count'=>0,
+			'besttraveltime'=>'12 ',
+			'group'=>'',
+		),
+		375 => array (
 			'name'=>'Testcounter',
 			'count'=>0,
 			'besttraveltime'=>'',
