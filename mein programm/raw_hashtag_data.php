@@ -2,7 +2,7 @@
     //Credentials
 	include 'definition.php';
     //.JSON file with countrydata
-    $countryarray = json_decode(file_get_contents('countryarrayfinal.json'), true);
+    $countryarray = json_decode(file_get_contents('countryarraydata.json'), true);
     
 
 
@@ -34,12 +34,12 @@
         for ($i=0; $i<=24; $i++) {
             if(isset($topHashtagSearchArray[$i])){
                 $analyzearray = $topHashtagSearchArray[$i];
-                for($j=0; $j<=374; $j++){
+                for($j=0; $j<=375; $j++){
                     if((isset($analyzearray['caption']))AND(isset($topCountrySearchArray[$j]['name']))){
                         if(strpos(strtolower(($analyzearray['caption'])),$topCountrySearchArray[$j]['name'])){
                             if($topCountrySearchArray[$j]['group'] != ''){
                                 $groupvar = $topCountrySearchArray[$j]['group'];
-                                for ($k=0; $k<=374; $k++){
+                                for ($k=0; $k<=375; $k++){
                                     if(isset($topCountrySearchArray[$k]['name'])){
                                         if($groupvar == $topCountrySearchArray[$k]['name']){
                                             $topCountrySearchArray[$k]['count']++;
@@ -64,12 +64,12 @@
         for ($i=0; $i<=243; $i++) {
             if(isset($recentHashtagSearchArray[$i])){
                 $analyzearray = $recentHashtagSearchArray[$i];
-                for($j=0; $j<=374; $j++){
+                for($j=0; $j<=375; $j++){
                     if((isset($analyzearray['caption']))AND(isset($recentCountrySearchArray[$j]['name']))){
                         if(strpos($analyzearray['caption'],$recentCountrySearchArray[$j]['name'])){
                             if($recentCountrySearchArray[$j]['group'] != ''){
                                 $groupvar = $recentCountrySearchArray[$j]['group'];
-                                for ($k=0; $k<=374; $k++){
+                                for ($k=0; $k<=375; $k++){
                                     if(isset($recentCountrySearchArray[$k]['name'])){
                                         if($groupvar == $recentCountrySearchArray[$k]['name']){
                                             $recentCountrySearchArray[$k]['count']++;
@@ -298,7 +298,7 @@
     
     
     //UPDATE test counter:
-    for ($l=0; $l<=374; $l++) {
+    for ($l=0; $l<=375; $l++) {
         if ($countryarray[$l]['name']=='Testcounter'){
             $countryarray[$l]['count']++;
             break;
@@ -312,9 +312,9 @@
 
     
 
-    //save data in json
+    //save new data in json
     $jsnon_countryarray = json_encode($sortedcountryarray);
-	$test_country = 'countryarrayfinal' . '.json';
+	$test_country = 'countryarraydata' . '.json';
 
    file_put_contents($test_country,$jsnon_countryarray);
 

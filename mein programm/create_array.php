@@ -2261,6 +2261,12 @@
 			'group'=>'',
 		),
 		374 => array (
+			'name'=>'#usa ',
+			'count'=>0,
+			'besttraveltime'=>'1234 ',
+			'group'=>'',
+		),
+		375 => array (
 			'name'=>'Testcounter',
 			'count'=>0,
 			'besttraveltime'=>'',
@@ -2273,7 +2279,7 @@
 
 
 	$json_countryarray = json_encode($countryarray);
-	$test_country = 'countryarrayfinalcopy' . '.json';
+	$test_country = 'countryarrayfinal' . '.json';
 
 	if (file_put_contents($test_country,$json_countryarray)){
 		echo $test_country . 'file created';
