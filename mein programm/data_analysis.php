@@ -16,7 +16,7 @@
     
     //Places without mentions
     $withoutmentions = array ();
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         if ($countryarray[$i]['count'] == 0){
             $withoutmentions[] = $countryarray[$i];
         };
@@ -32,7 +32,7 @@
 
     //Average Mentions
     $average = 0;
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         $addedValue = $countryarray[$i]['count'];
         
         if ($countryarray[$i]['name']!='Testcounter'){
@@ -41,13 +41,13 @@
     }
     
     //Without zeros
-    $averageBetter = round($average/(375-count($withoutmentions)),2);
-    $average = round(($average/ 375),2);
+    $averageBetter = round($average/(374-count($withoutmentions)),2);
+    $average = round(($average/ 374),2);
     
 
     //Above 100 Mentions: (100 "averageBetter")
     $above100 = array ();
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         if (($countryarray[$i]['count'] > $averageBetter)&&($countryarray[$i]['name']!='Testcounter')){
             $above100[] = $countryarray[$i];
         };
@@ -74,7 +74,7 @@
     //Places that contributed a lot to their group
     $groupcounterTop10 = 0;
     $grouptop10 = array();
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         if ($countryarray[$i]['group']!= ''){
             $grouptop10[$groupcounterTop10] = $countryarray[$i];
             $groupcounterTop10++;
@@ -115,7 +115,7 @@
     $highNowAndBTTnowORpast= array();
     $lowNowAndBTTnowORpast= array();
     //HIGH
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         if ((strpos($countryarray[$i]['besttraveltime'],$timeNow))||(strpos($countryarray[$i]['besttraveltime'],$timePast)) && ($countryarray[$i]['group'] == '') ){
             $highNowAndBTTnowORpast[] = $countryarray[$i];
             $counterBTT++;
@@ -127,7 +127,7 @@
         }
     };
     //LOW
-    for ($i=375; $i>=0; $i--) {
+    for ($i=374; $i>=0; $i--) {
         if (((strpos($countryarray[$i]['besttraveltime'],$timeNow))||(strpos($countryarray[$i]['besttraveltime'],$timePast))) && ($countryarray[$i]['group'] == '') && ($countryarray[$i]['count'] != 0)){
             $lowNowAndBTTnowORpast[] = $countryarray[$i];
             $counterBTT++;
@@ -144,7 +144,7 @@
     $highNowAndBTTNow= array();
     $lowNowAndBTTNow= array();
     //HIGH
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         
         if (((strpos($countryarray[$i]['besttraveltime'],$timeNow)) == 0) && ((strpos($countryarray[$i]['besttraveltime'],$timeNow)) != '') && ($countryarray[$i]['group'] == '') ) {
             $highNowAndBTTNow[] = $countryarray[$i];
@@ -157,7 +157,7 @@
         }
     };
     //LOW
-    for ($i=375; $i>=0; $i--) {
+    for ($i=374; $i>=0; $i--) {
         if (((strpos($countryarray[$i]['besttraveltime'],$timeNow)) == 0) && ($countryarray[$i]['group'] == '') && ((strpos($countryarray[$i]['besttraveltime'],$timeNow)) != '') && ($countryarray[$i]['count'] != 0)){
             $lowNowAndBTTNow[] = $countryarray[$i];
             $counterBTT++;
@@ -176,7 +176,7 @@
     $highNowAndBTTnearFuture=array();
     $lowNowAndBTTnearFuture=array();
     //HIGH
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         if ((strpos($countryarray[$i]['besttraveltime'],$timeNearFuture)  || ((strpos($countryarray[$i]['besttraveltime'],$timeNearFuture)) == 0) && ((strpos($countryarray[$i]['besttraveltime'],$timeNearFuture)) != '')) &&  ($countryarray[$i]['group'] == '') ){
             $highNowAndBTTnearFuture[] = $countryarray[$i];
             $counterBTT++;
@@ -188,7 +188,7 @@
         }
     };
     //LOW
-    for ($i=375; $i>=0; $i--) {
+    for ($i=374; $i>=0; $i--) {
         if (((strpos($countryarray[$i]['besttraveltime'],$timeNearFuture))  || ((strpos($countryarray[$i]['besttraveltime'],$timeNearFuture)) == 0) && ((strpos($countryarray[$i]['besttraveltime'],$timeNearFuture)) != ''))  && ($countryarray[$i]['group'] == '') && ($countryarray[$i]['count'] != 0) ){
             $lowNowAndBTTnearFuture[] = $countryarray[$i];
             $counterBTT++;
@@ -204,7 +204,7 @@
     $highNowAndBTTfarFuture=array();
     $lowNowAndBTTfarFuture=array();
     //HIGH
-    for ($i=0; $i<=375; $i++) {
+    for ($i=0; $i<=374; $i++) {
         if ((strpos($countryarray[$i]['besttraveltime'],$timeFarFutue) && ($countryarray[$i]['group'] == '') || ((strpos($countryarray[$i]['besttraveltime'],$timeFarFutue)) == 0) && ((strpos($countryarray[$i]['besttraveltime'],$timeFarFutue)) != ''))  && (strpos($countryarray[$i]['besttraveltime'],$timeFarFutue) != '')){
             $highNowAndBTTfarFuture[] = $countryarray[$i];
             $counterBTT++;
@@ -216,7 +216,7 @@
         }
     };
     //LOW
-    for ($i=375; $i>=0; $i--) {
+    for ($i=374; $i>=0; $i--) {
         if ((strpos($countryarray[$i]['besttraveltime'],$timeFarFutue)  || ((strpos($countryarray[$i]['besttraveltime'],$timeFarFutue)) == 0) && ((strpos($countryarray[$i]['besttraveltime'],$timeFarFutue)) != ''))   && ($countryarray[$i]['count'] != 0) && ($countryarray[$i]['group'] == '')){
             $lowNowAndBTTfarFuture[] = $countryarray[$i];
             $counterBTT++;
@@ -291,7 +291,7 @@
         </br>
         <div> 
             <h3>Places above "Average without Zero" Ammount of Mentions</h3> 
-            <textarea style="width:50%;height:100px"><?php 
+            <textarea style="width:40%;height:100px"><?php 
                                                             foreach ($above100 as $singleAbove100) {
                                                                 echo( $singleAbove100['name'] ); 
                                                             }

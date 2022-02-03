@@ -1355,10 +1355,10 @@
 			'group'=>'',
 		),
 		223 => array (
-			'name'=>'#martinique ',
+			'name'=>'#usa ',
 			'count'=>0,
-			'besttraveltime'=> '12 ',
-			'group'=>'#caribbeanislands ',
+			'besttraveltime'=>'1234 ',
+			'group'=>'',
 		),
 		224 => array (
 			'name'=>'#mauritius ',
@@ -2261,12 +2261,6 @@
 			'group'=>'',
 		),
 		374 => array (
-			'name'=>'#usa ',
-			'count'=>0,
-			'besttraveltime'=>'1234 ',
-			'group'=>'',
-		),
-		375 => array (
 			'name'=>'Testcounter',
 			'count'=>0,
 			'besttraveltime'=>'',
